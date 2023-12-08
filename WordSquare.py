@@ -5,6 +5,7 @@
 # 11/27/2023
 
 allSolutions = []
+dictFileName = "updated_dict.txt"
 
 
 def main():
@@ -14,7 +15,12 @@ def main():
         print("Enter the letters in side " + str(i + 1) + " as one string")
         sides.append(input())
 
-    print(findBestSolution(sides, allSolutions))
+    bestAnswers = findBestSolution(sides, allSolutions)
+    print("All Solutions:")
+    print(allSolutions)
+
+    print("Best solution: ", end="")
+    print(bestAnswers)
 
 
 def letterToSide(letter, sides):
@@ -30,6 +36,9 @@ def isNextPossibleLetter(prevLetter, currentLetter, sides):
 
 
 def isLegalWord(word, sides):
+    if len(word) < 3:
+        return False
+
     for i in word:
         if i not in lettersFromSides(sides):
             return False
@@ -42,8 +51,9 @@ def isLegalWord(word, sides):
 
 
 def generateAllWords(sides):
+    global dictFileName
     answers = set()
-    file = open("dict.txt", "r")
+    file = open(dictFileName, "r")
     for word in file.read().split():
         if isLegalWord(word, sides):
             answers.add(word)
@@ -104,15 +114,6 @@ def lettersFromSides(sides):
     return letters
 
 
-def isShorter(solution, best):
-    if len(solution) < len(best):
-        return True
-    elif len(solution) == len(best):
-        return len("".join(solution)) < len("".join(best))
-
-    return False
-
-
 def findBestSolution(sides, allSolutions):
     allPossibleWords = generateAllWords(sides)
     print("Input the desired depth: ")
@@ -129,14 +130,9 @@ def findBestSolution(sides, allSolutions):
         if (len(allSolutions)) != 0:
             break
 
-    bestSolution = allSolutions[0]
+    allSolutions = sorted(allSolutions, key=lambda solution: len("".join(solution)))
 
-    print("Best solution: ", end="")
-    for solution in allSolutions:
-        if isShorter(solution, bestSolution):
-            bestSolution = solution
-
-    return bestSolution
+    return [i for i in allSolutions if len("".join(i)) == len("".join(allSolutions[0]))]
 
 
 if __name__ == "__main__":
