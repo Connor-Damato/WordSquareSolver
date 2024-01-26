@@ -19,7 +19,7 @@ def main():
     print("All Solutions:")
     print(allSolutions)
 
-    print("Best solution: ", end="")
+    print("Best solution" + ("s: " if (not len(bestAnswers) == 1) else ": "), end="")
     print(bestAnswers)
 
 

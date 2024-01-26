@@ -119854,6 +119854,7 @@ powderlike
 powders
 powdery
 power
+powerbank
 powerboat
 powerboats
 powered
