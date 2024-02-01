@@ -37,7 +37,7 @@ Input the desired depth:
 **#note**: unless you have a beefy computer, there is no need to go above depth 3. Most often, the solution will be within depth 2 (2 words required to generate a solution)
 
 ### The output of the program:
-All Solutions:
+All Solutions of Depth 2:
 
 [['judger', 'rhythmist'], ['judger', 'rhythmists'], ['eurytherm', 'misjudge'], ['rejudge', 'erythrisms'], ['rejudge', 'erythrism'], ['judge', 'erythrisms'], ['judge', 'erythrism'], ['judgers', 'smithery'], ['judgers', 'smithy'], ['rhythm', 'misjudge'], ['misjudge', 'eurytherm'], ['misjudge', 'erythrite'], ['misjudge', 'eurytherms'], ['misjudge', 'erythrisms'], ['misjudge', 'erythrism'], ['erythrism', 'misjudge']]
 
