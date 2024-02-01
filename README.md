@@ -5,7 +5,7 @@ This code produces the #1 answer(s) to a given letter boxed problem.
 1. You must use every letter in the box at least once within the given limit of words.
 2. Each word except your starting word must start with the last letter of the previous word.
   
-   e.g. |space -> exploration| is valid, but |space -> ship| is not.
+   e.g. **space -> exploration** is valid, but **space -> ship** is not.
 3. You cannot use a letter from the same side of the box twice in a row.
 
 ## An example Letter Boxed problem from the [NYT puzzle site](https://www.nytimes.com/puzzles/letter-boxed):
