@@ -1,5 +1,5 @@
 # NYTimes Letter Boxed Solver!
-This code produces the #1 answer(s) to a given letter boxed problem.
+This code produces the #1 answer(s) to a given letter boxed problem. The "best" answer to the puzzle is the answer that firstly- uses the least words, and secondly- uses the least letters.
 
 ## The rules of the game are as follows:
 1. You must use every letter in the box at least once within the given limit of words.
