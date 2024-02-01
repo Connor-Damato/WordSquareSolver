@@ -24,7 +24,7 @@ def main():
 
     start_time = time.time()
     bestAnswers = findBestSolution(sides, allSolutions, maxDepth)
-    print("All Solutions:")
+    print(f"All Solutions of Depth {len(allSolutions[0])}:")
     print(allSolutions)
 
     print("Best solution" + ("s: " if (not len(bestAnswers) == 1) else ": "), end="")
