@@ -2,7 +2,7 @@
 # Preconditions: Assumes letters cannot be duplicated between sides, and that there is always an answer
 # Outputs the shortest answer
 # Written by: Connor Damato
-# 11/27/2023
+# 1/30/2024
 
 from functools import partial
 import multiprocessing as mp
@@ -20,7 +20,10 @@ def main():
         print("Enter the letters in side " + str(i + 1) + " as one string")
         sides.append(input())
 
-    bestAnswers = findBestSolution(sides, allSolutions)
+    print("Input the desired depth: ")
+    maxDepth = int(input())
+
+    bestAnswers = findBestSolution(sides, allSolutions, maxDepth)
     print("All Solutions:")
     print(allSolutions)
 
@@ -121,10 +124,8 @@ def lettersFromSides(sides):
     return letters
 
 
-def findBestSolution(sides, allSolutions):
+def findBestSolution(sides, allSolutions, maxDepth):
     allPossibleWords = generateAllWords(sides)
-    print("Input the desired depth: ")
-    maxDepth = int(input())
 
     print(
         "Searching "
@@ -132,13 +133,14 @@ def findBestSolution(sides, allSolutions):
         + " unique words for the best solution..."
     )
     for i in range(maxDepth):
+        print("Searching depth " + str(i + 1) + "...")
         if i > 1:
             mp.map(
                 partial(findPair, allPossibleWords, 1, i + 1, sides),
                 allPossibleWords,
             )
-        print("Searching depth " + str(i + 1) + "...")
-        findPair(allPossibleWords, 0, i + 1, sides, [])
+        else:
+            findPair(allPossibleWords, 0, i + 1, sides, [])
         if (len(allSolutions)) != 0:
             break
 
