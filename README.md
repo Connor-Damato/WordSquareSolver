@@ -6,7 +6,7 @@ This code produces the #1 answer(s) to a given letter boxed problem.
 2. Each word except your starting word must start with the last letter of the previous word. e.g. |space -> exploration| is valid, but |space -> ship| is not.
 3. You cannot use a letter from the same side of the box twice in a row.
 
-## A letter boxed problem looks like the following
+## An example Letter Boxed problem from the [NYT puzzle site](https://www.nytimes.com/puzzles/letter-boxed):
 ![image](https://github.com/Connor-Damato/WordSquareSolver/assets/67179143/6ef49ee6-40de-4d1a-8028-6744e237852f)
 
 ###To input into the program:
@@ -32,3 +32,4 @@ All Solutions:
 Best solution: [['judgers', 'smithy']]
 
 Code Terminated- 4.45 seconds.
+
