@@ -14,7 +14,6 @@ dictFileName = "updated_dict.txt"
 
 def main():
     sides = []
-    start_time = time.time()
 
     for i in range(4):
         print("Enter the letters in side " + str(i + 1) + " as one string")
@@ -23,6 +22,7 @@ def main():
     print("Input the desired depth: ")
     maxDepth = int(input())
 
+    start_time = time.time()
     bestAnswers = findBestSolution(sides, allSolutions, maxDepth)
     print("All Solutions:")
     print(allSolutions)

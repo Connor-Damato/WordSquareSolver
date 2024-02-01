@@ -4,6 +4,10 @@
 # Written by: Connor Damato
 # 11/27/2023
 
+# TODO: function to weed out redundant words
+# TODO: function to give each words a score
+# TODO: function to sort through scores to find the fastest answer
+
 from functools import partial
 import multiprocessing as mp
 import time
