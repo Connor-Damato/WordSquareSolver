@@ -9,17 +9,27 @@ This code produces the #1 answer(s) to a given letter boxed problem.
 ## An example Letter Boxed problem from the [NYT puzzle site](https://www.nytimes.com/puzzles/letter-boxed):
 ![image](https://github.com/Connor-Damato/WordSquareSolver/assets/67179143/6ef49ee6-40de-4d1a-8028-6744e237852f)
 
-###To input into the program:
+### To input into the program:
 Enter the letters in side 1 as one string
+
 jtr
+
 Enter the letters in side 2 as one string
+
 uih
+
 Enter the letters in side 3 as one string
+
 des
+
 Enter the letters in side 4 as one string
+
 myg
+
 Input the desired depth:
+
 3
+
 
 **#note*** the order for each side does not matter, as long as each side is self contained. Case does not matter.
 **#note*** unless you have a beefy computer, there is no need to go above depth 3. Most often, the solution will be within depth 2 (2 words required to generate a solution)
