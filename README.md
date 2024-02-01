@@ -31,8 +31,8 @@ Input the desired depth:
 3
 
 
-**#note*** the order for each side does not matter, as long as each side is self contained. Case does not matter.
-**#note*** unless you have a beefy computer, there is no need to go above depth 3. Most often, the solution will be within depth 2 (2 words required to generate a solution)
+**#note**: the order for each side does not matter, as long as each side is self contained. Case does not matter.
+**#note**: unless you have a beefy computer, there is no need to go above depth 3. Most often, the solution will be within depth 2 (2 words required to generate a solution)
 
 ### The output of the program:
 All Solutions:
@@ -42,4 +42,8 @@ All Solutions:
 Best solution: [['judgers', 'smithy']]
 
 Code Terminated- 4.45 seconds.
+
+
+
+#Final note: some words might not be accepted by the game, if encountered simply remove them from the updated_dict.txt file and rerun the script. Alternatively if an accepted word is not present in the file feel free to add it.
 
