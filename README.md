@@ -2,9 +2,9 @@
 This code produces the #1 answer(s) to a given letter boxed problem.
 
 ## The rules of the game are as follows:
-1.) You must use every letter in the box at least once within the given limit of words.
-2.) Each word except your starting word must start with the last letter of the previous word. e.g. |space -> exploration| is valid, but |space -> ship| is not.
-3.) You cannot use a letter from the same side of the box twice in a row.
+1.) You must use every letter in the box at least once within the given limit of words.\n
+2.) Each word except your starting word must start with the last letter of the previous word. e.g. |space -> exploration| is valid, but |space -> ship| is not.\n
+3.) You cannot use a letter from the same side of the box twice in a row.\n
 
 ## A letter boxed problem looks like the following
 ![image](https://github.com/Connor-Damato/WordSquareSolver/assets/67179143/6ef49ee6-40de-4d1a-8028-6744e237852f)
@@ -21,8 +21,8 @@ myg
 Input the desired depth:
 3
 
-### #note* the order for each side does not matter, as long as each side is self contained. Case does not matter.
-### #note* unless you have a beefy computer, there is no need to go above depth 3. Most often, the solution will be within depth 2 (2 words required to generate a solution)
+**#note*** the order for each side does not matter, as long as each side is self contained. Case does not matter.
+**#note*** unless you have a beefy computer, there is no need to go above depth 3. Most often, the solution will be within depth 2 (2 words required to generate a solution)
 
 ### The answers that the program produces are:
 All Solutions:
