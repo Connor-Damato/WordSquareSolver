@@ -2,9 +2,9 @@
 This code produces the #1 answer(s) to a given letter boxed problem.
 
 ## The rules of the game are as follows:
-1.) You must use every letter in the box at least once within the given limit of words.\n
-2.) Each word except your starting word must start with the last letter of the previous word. e.g. |space -> exploration| is valid, but |space -> ship| is not.\n
-3.) You cannot use a letter from the same side of the box twice in a row.\n
+1. You must use every letter in the box at least once within the given limit of words.
+2. Each word except your starting word must start with the last letter of the previous word. e.g. |space -> exploration| is valid, but |space -> ship| is not.
+3. You cannot use a letter from the same side of the box twice in a row.
 
 ## A letter boxed problem looks like the following
 ![image](https://github.com/Connor-Damato/WordSquareSolver/assets/67179143/6ef49ee6-40de-4d1a-8028-6744e237852f)
@@ -26,6 +26,9 @@ Input the desired depth:
 
 ### The answers that the program produces are:
 All Solutions:
+
 [['judger', 'rhythmist'], ['judger', 'rhythmists'], ['eurytherm', 'misjudge'], ['rejudge', 'erythrisms'], ['rejudge', 'erythrism'], ['judge', 'erythrisms'], ['judge', 'erythrism'], ['judgers', 'smithery'], ['judgers', 'smithy'], ['rhythm', 'misjudge'], ['misjudge', 'eurytherm'], ['misjudge', 'erythrite'], ['misjudge', 'eurytherms'], ['misjudge', 'erythrisms'], ['misjudge', 'erythrism'], ['erythrism', 'misjudge']]
+
 Best solution: [['judgers', 'smithy']]
+
 Code Terminated- 4.45 seconds.
