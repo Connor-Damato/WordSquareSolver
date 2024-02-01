@@ -34,6 +34,7 @@ Input the desired depth:
 
 
 **#note**: the order for each side does not matter, as long as each side is self contained. Case does not matter.
+
 **#note**: unless you have a beefy computer, there is no need to go above depth 3. Most often, the solution will be within depth 2 (2 words required to generate a solution)
 
 ### The output of the program:
