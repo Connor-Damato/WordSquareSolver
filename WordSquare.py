@@ -101,7 +101,7 @@ def findPair(allWords, currDepth, sides, pair, allSolutions, startingWords):
     if isComplete(pair, sides):
         allSolutions.append([i for i in pair])
         return
-    if currDepth >= maxDepth:
+    if currDepth == maxDepth:
         return
     if currDepth == 0:
         for word in startingWords:
