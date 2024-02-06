@@ -9,11 +9,9 @@ import multiprocessing as mp
 import time
 
 dictFileName = "updated_dict.txt"
-maxDepth = 3  # Usually the limit for the game
 
 
 def main():
-    global maxDepth
     sides = []
 
     for i in range(4):
@@ -26,7 +24,7 @@ def main():
     start_time = time.time()
     manager = mp.Manager()
     allSolutions = manager.list()
-    bestAnswers = findBestSolution(sides, allSolutions)
+    bestAnswers = findBestSolution(sides, allSolutions, maxDepth)
     print(f"All Solutions of Depth {len(allSolutions[0])}:")
     print(allSolutions)
 
@@ -96,8 +94,7 @@ def isComplete(pair, sides):
     return sorted(list(set("".join(pair)) & set(letters))) == sorted(letters)
 
 
-def findPair(allWords, currDepth, sides, pair, allSolutions, startingWords):
-    global maxDepth
+def findPair(allWords, currDepth, maxDepth, sides, pair, allSolutions, startingWords):
     if isComplete(pair, sides):
         allSolutions.append([i for i in pair])
         return
@@ -109,6 +106,7 @@ def findPair(allWords, currDepth, sides, pair, allSolutions, startingWords):
             findPair(
                 removeSimilarWords(allWords, word),
                 currDepth + 1,
+                maxDepth,
                 sides,
                 [word],
                 allSolutions,
@@ -122,6 +120,7 @@ def findPair(allWords, currDepth, sides, pair, allSolutions, startingWords):
                 findPair(
                     removeSimilarWords(allWords, word),
                     currDepth + 1,
+                    maxDepth,
                     sides,
                     pair,
                     allSolutions,
@@ -141,7 +140,7 @@ def lettersFromSides(sides):
     return letters
 
 
-def findBestSolution(sides, allSolutions):
+def findBestSolution(sides, allSolutions, maxDepth):
     global foundDepth
     allPossibleWords = generateAllWords(sides)
 
@@ -159,7 +158,8 @@ def findBestSolution(sides, allSolutions):
 
     pool = mp.Pool()
     pool.map_async(
-        partial(findPair, allPossibleWords, 0, sides, [], allSolutions), wordDiv
+        partial(findPair, allPossibleWords, 0, maxDepth, sides, [], allSolutions),
+        wordDiv,
     )
     pool.close()
     pool.join()
