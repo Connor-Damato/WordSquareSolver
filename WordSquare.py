@@ -8,11 +8,12 @@ from functools import partial
 import multiprocessing as mp
 import time
 
-allSolutions = []
 dictFileName = "updated_dict.txt"
+maxDepth = 3  # Usually the limit for the game
 
 
 def main():
+    global maxDepth
     sides = []
 
     for i in range(4):
@@ -23,7 +24,9 @@ def main():
     maxDepth = int(input())
 
     start_time = time.time()
-    bestAnswers = findBestSolution(sides, allSolutions, maxDepth)
+    manager = mp.Manager()
+    allSolutions = manager.list()
+    bestAnswers = findBestSolution(sides, allSolutions)
     print(f"All Solutions of Depth {len(allSolutions[0])}:")
     print(allSolutions)
 
@@ -68,7 +71,7 @@ def generateAllWords(sides):
         if isLegalWord(word, sides):
             answers.add(word)
 
-    return answers
+    return list(answers)
 
 
 # determines if a word can be appended to the pair
@@ -93,24 +96,38 @@ def isComplete(pair, sides):
     return sorted(list(set("".join(pair)) & set(letters))) == sorted(letters)
 
 
-def findPair(allWords, currDepth, maxDepth, sides, pair):
-    global allSolutions
+def findPair(allWords, currDepth, sides, pair, allSolutions, startingWords):
+    global maxDepth
     if isComplete(pair, sides):
         allSolutions.append([i for i in pair])
         return
     if currDepth >= maxDepth:
         return
-    for word in allWords:
-        if eligibleWord(pair, word):
+    if currDepth == 0:
+        for word in startingWords:
             pair.append(word)
             findPair(
                 removeSimilarWords(allWords, word),
                 currDepth + 1,
-                maxDepth,
                 sides,
-                pair,
+                [word],
+                allSolutions,
+                None,
             )
             pair.remove(word)
+    else:
+        for word in allWords:
+            if eligibleWord(pair, word):
+                pair.append(word)
+                findPair(
+                    removeSimilarWords(allWords, word),
+                    currDepth + 1,
+                    sides,
+                    pair,
+                    allSolutions,
+                    None,
+                )
+                pair.remove(word)
 
     return
 
@@ -124,7 +141,8 @@ def lettersFromSides(sides):
     return letters
 
 
-def findBestSolution(sides, allSolutions, maxDepth):
+def findBestSolution(sides, allSolutions):
+    global foundDepth
     allPossibleWords = generateAllWords(sides)
 
     print(
@@ -132,17 +150,19 @@ def findBestSolution(sides, allSolutions, maxDepth):
         + str(len(allPossibleWords))
         + " unique words for the best solution..."
     )
-    for i in range(maxDepth):
-        print("Searching depth " + str(i + 1) + "...")
-        if i > 1:
-            mp.map(
-                partial(findPair, allPossibleWords, 1, i + 1, sides),
-                allPossibleWords,
-            )
-        else:
-            findPair(allPossibleWords, 0, i + 1, sides, [])
-        if (len(allSolutions)) != 0:
-            break
+
+    # separate the list of all words to be run among the differnt cores of the CPU
+    numCores = mp.cpu_count()
+    wordDiv = [[] for i in range(numCores)]
+    for i in range(len(allPossibleWords)):
+        wordDiv[i % numCores].append(allPossibleWords[i])
+
+    pool = mp.Pool()
+    pool.map_async(
+        partial(findPair, allPossibleWords, 0, sides, [], allSolutions), wordDiv
+    )
+    pool.close()
+    pool.join()
 
     allSolutions = sorted(allSolutions, key=lambda solution: len("".join(solution)))
 
