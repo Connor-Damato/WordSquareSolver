@@ -10,6 +10,8 @@ import time
 import tkinter as tk
 
 dictFileName = "updated_dict.txt"
+foundDepth = -1
+lockSubmit = False
 
 
 def main():
@@ -77,10 +79,12 @@ def isComplete(pair, sides):
 
 
 def findPair(allWords, maxDepth, sides, pair, allSolutions, startingWords):
+    global foundDepth
     if isComplete(pair, sides):
         allSolutions.append([i for i in pair])
+        foundDepth = len(pair)
         return
-    if len(pair) == maxDepth:
+    if len(pair) == maxDepth or len(pair) == foundDepth:
         return
     if len(pair) == 0:
         for word in startingWords:
@@ -110,24 +114,22 @@ def findPair(allWords, maxDepth, sides, pair, allSolutions, startingWords):
 
 
 def lettersFromSides(sides):
-    letters = []
-    for side in sides:
-        for letter in side:
-            letters.append(letter)
-
-    return letters
+    return "".join(sides)
 
 
 # sets the global allSolutions to every pair that solves the square.
-# returns a list of the best solutions out of that global
-def findBestSolution(sides, allSolutions, maxDepth):
-    global foundDepth
+# fills allSolutions and returns a list of the best solutions
+def findBestSolution(sides, allSolutions, maxDepth, results):
+    global lockSubmit
+    lockSubmit = True
     allPossibleWords = generateAllWords(sides)
 
-    print(
+    results.delete("1.0", tk.END)
+    results.insert(
+        tk.END,
         "Searching "
         + str(len(allPossibleWords))
-        + " unique words for the best solution..."
+        + " unique words for the best solution...",
     )
 
     # separate the list of all words to be run among the differnt cores of the CPU
@@ -138,15 +140,30 @@ def findBestSolution(sides, allSolutions, maxDepth):
 
     pool = mp.Pool()
     pool.map_async(
-        partial(findPair, allPossibleWords, maxDepth, sides, [], allSolutions),
+        partial(breadthFirst, allPossibleWords, maxDepth, sides, allSolutions),
         wordDiv,
     )
     pool.close()
     pool.join()
 
     allSolutions = sorted(allSolutions, key=lambda solution: len("".join(solution)))
-
+    allSolutions = trimSolutions(allSolutions)
+    lockSubmit = False
     return [i for i in allSolutions if len("".join(i)) == len("".join(allSolutions[0]))]
+
+
+# starts with the lowest depth to save processing power
+def breadthFirst(allWords, maxDepth, sides, allSolutions, startingWords):
+    for i in range(maxDepth):
+        findPair(allWords, i + 1, sides, [], allSolutions, startingWords)
+        if len(allSolutions) != 0:
+            return
+
+
+# removes any solutions of a greater depth than the minimum
+def trimSolutions(allSolutions):
+    global foundDepth
+    return [i for i in allSolutions if len(i) == len(allSolutions[0])]
 
 
 def generateWindow():
@@ -184,6 +201,7 @@ def generateWindow():
     results_scroll.pack(side="left", fill="y")
 
     results.insert(tk.END, "Waiting for input...")
+    results.tag_configure("bold", font="Helvetica 12 bold")
 
     # forms the letter box
     entries = []
@@ -213,26 +231,31 @@ def generateWindow():
 
     # displays the newly generated words based on the current input
     def handle_submit(event):
-        start_time = time.time()
-        sides = []
+        if not lockSubmit:
+            results.delete("1.0", tk.END)
+            start_time = time.time()
+            sides = []
 
-        maxDepth = 2
+            maxDepth = 2
 
-        for i in range(4):
-            sides.append(
-                entries[i][0].get() + entries[i][1].get() + entries[i][2].get()
-            )
+            for i in range(4):
+                sides.append(
+                    entries[i][0].get() + entries[i][1].get() + entries[i][2].get()
+                )
 
-        maxDepth = int(depth.get())
-        manager = mp.Manager()
-        allSolutions = manager.list()
-        print(maxDepth, sides)
-        bestAnswers = findBestSolution(sides, allSolutions, maxDepth)
-        duration = time.time() - start_time
-        print("Code Terminated- %.2f seconds." % duration)
+            maxDepth = int(depth.get())
+            manager = mp.Manager()
+            allSolutions = manager.list()
+            print(maxDepth, sides)
+            bestAnswers = findBestSolution(sides, allSolutions, maxDepth, results)
+            duration = time.time() - start_time
+            print("Code Terminated- %.2f seconds." % duration)
 
-        if allSolutions != []:
-            addLabels(bestAnswers, allSolutions, results)
+            results.delete("1.0", tk.END)
+            if len(allSolutions) != 0:
+                addLabels(bestAnswers, allSolutions, results)
+            else:
+                results.insert(tk.END, "NO SOLUTIONS FOUND")
 
     # buttons
     btn_submit = tk.Button(master=frame_tools, text="Submit")
@@ -250,8 +273,6 @@ def generateWindow():
 
 
 def addLabels(bestAnswers, allSolutions, results):
-    results.tag_configure("bold", font="Helvetica 12 bold")
-    results.delete("1.0", tk.END)
     results.insert(
         tk.END, "All Solutions of Depth " + str(len(allSolutions[0])) + ":\n", "bold"
     )
