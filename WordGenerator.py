@@ -35,8 +35,9 @@ def main():
         relief=tk.RAISED,
         borderwidth=3,
     )
-    frame_results.pack(fill=tk.BOTH, side=tk.LEFT, expand=True)
+
     frame_tools.pack(fill=tk.BOTH, side=tk.LEFT)
+    frame_results.pack(fill=tk.BOTH, side=tk.LEFT, expand=True)
 
     results = tk.Text(master=frame_results, bg="#ab9dac", wrap="word")
     results_scroll = tk.Scrollbar(
